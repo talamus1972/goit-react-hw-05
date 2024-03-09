@@ -1,21 +1,41 @@
 import axios from "axios";
 
-export default async function getFilms() {
-  const response = await axios.get();
+axios.defaults.baseURL = "https://api.themoviedb.org/3/";
+
+const options = {
+  headers: {
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MzM1YjU2ODAxYjFkZWIwMGFlZTE1MDc3NWY0MzU3NSIsInN1YiI6IjY1ZWI4Mzk2MjBlY2FmMDE2MmZhYWFmNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.BBDH310OD4hDdB80GDcz1i97I5bvTx_OpeOn7qH8KCY",
+  },
+};
+
+export const getTrendingFilms = async () => {
+  const response = await axios.get(
+    "trending/movie/day?language=en-US",
+    options
+  );
+  return response.data.results;
+};
+
+export const dataPageFilms = async (movieId) => {
+  const response = await axios.get(`movie/${movieId}?language=en-US`, options);
   return response.data;
-}
+};
 
-// const url =
-//   "https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=1";
+export const dataFilmsCast = async (movieId) => {
+  const response = await axios.get(
+    `movie/${movieId}/credits?language=en-US`,
+    options
+  );
 
-// const options = {
-//   headers: {
-//     // Замість api_read_access_token вставте свій токен
-//     Authorization: "Bearer api_read_access_token",
-//   },
-// };
+  return response.data.cast;
+};
 
-// axios
-//   .get(url, options)
-//   .then((response) => console.log(response))
-//   .catch((err) => console.error(err));
+export const dataFilmsReviews = async (movieId) => {
+  const response = await axios.get(
+    `movie/${movieId}/reviews?language=en-US&page=1`,
+    options
+  );
+  console.log(movieId);
+  return response.data.results;
+};

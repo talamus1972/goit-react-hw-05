@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import MovieList from "../../components/MovieList/MovieList";
-import getFilms from "../../data-api";
+import { getTrendingFilms } from "../../data-api";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 
 export default function HomePage() {
   const [films, setFilms] = useState([]);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     async function getData() {
       try {
-        const data = await getFilms();
+        setError(false);
+        const data = await getTrendingFilms();
         setFilms(data);
       } catch (error) {
+        setError(true);
         console.log(error.message);
       }
     }
@@ -19,6 +23,7 @@ export default function HomePage() {
 
   return (
     <div>
+      {error && <ErrorMessage />}
       <MovieList films={films} />
     </div>
   );
