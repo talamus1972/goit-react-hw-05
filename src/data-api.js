@@ -36,6 +36,15 @@ export const dataFilmsReviews = async (movieId) => {
     `movie/${movieId}/reviews?language=en-US&page=1`,
     options
   );
-  console.log(movieId);
+  return response.data.results;
+};
+
+// 'https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=1' \
+
+export const dataFilmsSearch = async (value) => {
+  const response = await axios.get(
+    `search/movie?query=${value}&include_adult=false&language=en-US&page=1`,
+    options
+  );
   return response.data.results;
 };

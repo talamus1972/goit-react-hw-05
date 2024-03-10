@@ -3,17 +3,20 @@ import css from "./MovieCast.module.css";
 import { useParams } from "react-router-dom";
 import { dataFilmsCast } from "../../data-api";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import Loader from "../Loader/Loader";
 
 export default function MovieCast() {
   const { movieId } = useParams();
   const [casts, setCasts] = useState([]);
   const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!movieId) {
       return;
     }
     async function getPageDetailsCastFilms() {
+      setIsLoading(true);
       try {
         setError(false);
         const responce = await dataFilmsCast(movieId);
@@ -21,6 +24,8 @@ export default function MovieCast() {
       } catch (error) {
         setError(true);
         console.log(error.message);
+      } finally {
+        setIsLoading(false);
       }
     }
     getPageDetailsCastFilms();
@@ -28,6 +33,8 @@ export default function MovieCast() {
   return (
     <div>
       {error && <ErrorMessage />}
+      {isLoading && <Loader />}
+
       <ul className={css.list}>
         {casts.map((cast) => (
           <li key={cast.id} className={css.item}>
