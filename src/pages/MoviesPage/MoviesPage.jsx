@@ -32,7 +32,6 @@ export default function MoviesPage() {
     }
     getDataSearch();
   }, [value]);
-  console.log(query);
   return (
     <div>
       {error && <ErrorMessage />}

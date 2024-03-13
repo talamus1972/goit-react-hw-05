@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import css from "./MovieDetailsPage.module.css";
 import { Link, NavLink, Outlet, useParams } from "react-router-dom";
 import { dataPageFilms } from "../../data-api";
@@ -33,7 +33,6 @@ export default function MovieDetailsPage() {
     }
     getPageDetailsFilms();
   }, [movieId]);
-  console.log(movieId);
 
   return (
     <div>
@@ -58,7 +57,11 @@ export default function MovieDetailsPage() {
           <h3>Overview</h3>
           <p>{film.overview}</p>
           <h3>Genres</h3>
-          {/* {film.genres.name} */}
+          {film.genres && film.genres.map((genre)=>(
+          <li key={genre.id}>
+            {genre.name}
+          </li>
+        ))}
         </div>
       </div>
       <hr />
@@ -72,7 +75,9 @@ export default function MovieDetailsPage() {
         </li>
         <hr />
       </ul>
+      <Suspense fallback={<div>Loading page... </div>}>
       <Outlet />
+      </Suspense>
     </div>
   );
 }
