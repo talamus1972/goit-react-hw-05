@@ -33,6 +33,8 @@ export default function MovieDetailsPage() {
     }
     getPageDetailsFilms();
   }, [movieId]);
+  console.log(movieId);
+
   return (
     <div>
       {error && <ErrorMessage />}
@@ -45,6 +47,7 @@ export default function MovieDetailsPage() {
         <img
           src={`https://image.tmdb.org/t/p/w500/${film.backdrop_path}`}
           alt="Backdrop"
+          loading="lazy"
         />
 
         <div className={css.overview}>
@@ -55,13 +58,10 @@ export default function MovieDetailsPage() {
           <h3>Overview</h3>
           <p>{film.overview}</p>
           <h3>Genres</h3>
-          {/* <ul className={css.list}>
-            {film.genres.map((genre) => (
-              <li key={genre.id}>{genre.name}</li>
-            ))}
-          </ul> */}
+          {/* {film.genres.name} */}
         </div>
       </div>
+      <hr />
       <p>Additional information</p>
       <ul className={css.link}>
         <li>
@@ -70,9 +70,9 @@ export default function MovieDetailsPage() {
         <li>
           <NavLink to="reviews">Reviews</NavLink>
         </li>
+        <hr />
       </ul>
       <Outlet />
-      <hr />
     </div>
   );
 }
