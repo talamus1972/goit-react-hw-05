@@ -11,18 +11,24 @@ export default function MoviesPage() {
   const [query, setQuery] = useState([]);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  // const [params, setParams] = useSearchParams()
-  // const name = params.get("name");
-   const [, setParams] = useSearchParams();
-  
-  
+  const [params] = useSearchParams()
+ 
+
+  //  const [, setParams] = useSearchParams();
+  // const location = useLocation()
+  // console.log(location);
 // const value = params.get("owner") ?? "";
 //   const changeSearch = (search) => {
 //     params.set("owner", search)
 //     setParams(params)
 //   } 
 
-
+ 
+  const name = params.get("name") ?? "";
+  console.log(name);
+    // params.set("name", values);
+    // setParams(params);
+  
       const handleSubmit = (evt) => {
       evt.preventDefault();
         setValues(evt.target.elements.name.value)
@@ -46,9 +52,9 @@ export default function MoviesPage() {
       }
     }
     getDataSearch();
-
-     setParams({ name: values });
-  }, [values, setParams]);
+ 
+     
+  }, [values]);
     
 
   return (
