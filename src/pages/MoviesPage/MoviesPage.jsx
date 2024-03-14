@@ -3,46 +3,32 @@ import MovieList from "../../components/MovieList/MovieList";
 import { dataFilmsSearch } from "../../data-api";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import Loader from "../../components/Loader/Loader";
-// import FormPage from "../../components/FormPage/FormPage";
 import { useSearchParams } from "react-router-dom";
+import SearchForm from "../../components/SearchForm/SearchForm.jsx";
 
 export default function MoviesPage() {
-  const [values, setValues] = useState("")
   const [query, setQuery] = useState([]);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [params] = useSearchParams()
- 
+  const [params, setParams] = useSearchParams();
 
-  //  const [, setParams] = useSearchParams();
-  // const location = useLocation()
-  // console.log(location);
-// const value = params.get("owner") ?? "";
-//   const changeSearch = (search) => {
-//     params.set("owner", search)
-//     setParams(params)
-//   } 
+  const getQuery = params.get("query");
 
- 
-  const name = params.get("name") ?? "";
-  console.log(name);
-    // params.set("name", values);
-    // setParams(params);
-  
-      const handleSubmit = (evt) => {
-      evt.preventDefault();
-        setValues(evt.target.elements.name.value)
-      evt.target.reset()
-    };
-	
+  const handleSubmit = (formValue) => {
+    const form = formValue !== "" ? { query: formValue } : {};
+    setParams(form);
+  };
+
   useEffect(() => {
     async function getDataSearch() {
-      
+      if (!getQuery) {
+        return;
+      }
       setIsLoading(true);
 
       try {
         setError(false);
-        const data = await dataFilmsSearch(values);
+        const data = await dataFilmsSearch(getQuery);
         setQuery(data);
       } catch (error) {
         setError(true);
@@ -52,20 +38,14 @@ export default function MoviesPage() {
       }
     }
     getDataSearch();
- 
-     
-  }, [values]);
-    
+  }, [getQuery]);
 
   return (
     <div>
+      <hr />
       {error && <ErrorMessage />}
       {isLoading && <Loader />}
-      {/* <FormPage onSearch={handleSearch} /> */}
-       <form onSubmit={handleSubmit}>
-        <input type="text" name="name" />
-        <button type="submit">Search</button>
-      </form>
+      <SearchForm onSubmit={handleSubmit} />
       <MovieList films={query} />
     </div>
   );

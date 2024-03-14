@@ -15,6 +15,7 @@ export default function MovieReviews() {
     if (!movieId) {
       return;
     }
+
     async function getPageDetailsReviewsFilms() {
       setIsLoading(true);
 
@@ -31,6 +32,10 @@ export default function MovieReviews() {
     }
     getPageDetailsReviewsFilms();
   }, [movieId]);
+
+  if (reviews.length === 0) {
+    return <div>We do not have any Reviews for this movie</div>;
+  }
   return (
     <div>
       {error && <ErrorMessage />}

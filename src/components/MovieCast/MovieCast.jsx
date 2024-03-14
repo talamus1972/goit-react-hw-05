@@ -12,9 +12,8 @@ export default function MovieCast() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!movieId) {
-      return;
-    }
+    if (!movieId) return;
+
     async function getPageDetailsCastFilms() {
       setIsLoading(true);
       try {
@@ -30,6 +29,10 @@ export default function MovieCast() {
     }
     getPageDetailsCastFilms();
   }, [movieId]);
+
+  if (casts.length === 0) {
+    return <div>We do not have any Cast for this movie</div>;
+  }
   return (
     <div>
       {error && <ErrorMessage />}
