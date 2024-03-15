@@ -12,10 +12,10 @@ export default function MoviesPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [params, setParams] = useSearchParams();
 
-  const getQuery = params.get("query");
+  const getQuery = params.get("name");
 
   const handleSubmit = (formValue) => {
-    const form = formValue !== "" ? { query: formValue } : {};
+    const form = formValue !== "" ? { name: formValue } : {};
     setParams(form);
   };
 

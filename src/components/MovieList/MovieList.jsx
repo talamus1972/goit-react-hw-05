@@ -4,6 +4,9 @@ import { useLocation } from "react-router-dom";
 
 export default function MovieList({ films }) {
   const location = useLocation();
+  if (films.length === 0) {
+    return <div>No movies found</div>;
+  }
   return (
     <div>
       <ul className={css.ul}>
