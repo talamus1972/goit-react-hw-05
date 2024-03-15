@@ -7,12 +7,12 @@ import { useSearchParams } from "react-router-dom";
 import SearchForm from "../../components/SearchForm/SearchForm.jsx";
 
 export default function MoviesPage() {
-  const [query, setQuery] = useState([]);
+  const [trendingFilms, setTrendingFilms] = useState([]);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [params, setParams] = useSearchParams();
 
-  const getQuery = params.get("name");
+  const getFilms = params.get("name");
 
   const handleSubmit = (formValue) => {
     const form = formValue !== "" ? { name: formValue } : {};
@@ -21,15 +21,15 @@ export default function MoviesPage() {
 
   useEffect(() => {
     async function getDataSearch() {
-      if (!getQuery) {
+      if (!getFilms) {
         return;
       }
       setIsLoading(true);
 
       try {
         setError(false);
-        const data = await dataFilmsSearch(getQuery);
-        setQuery(data);
+        const data = await dataFilmsSearch(getFilms);
+        setTrendingFilms(data);
       } catch (error) {
         setError(true);
         console.log(error.message);
@@ -38,7 +38,7 @@ export default function MoviesPage() {
       }
     }
     getDataSearch();
-  }, [getQuery]);
+  }, [getFilms]);
 
   return (
     <div>
@@ -46,7 +46,7 @@ export default function MoviesPage() {
       {error && <ErrorMessage />}
       {isLoading && <Loader />}
       <SearchForm onSubmit={handleSubmit} />
-      <MovieList films={query} />
+      <MovieList films={trendingFilms} />
     </div>
   );
 }
