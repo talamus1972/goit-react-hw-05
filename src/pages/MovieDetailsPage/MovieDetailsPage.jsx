@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState, useRef } from "react";
 import css from "./MovieDetailsPage.module.css";
 import {
   Link,
@@ -17,7 +17,7 @@ export default function MovieDetailsPage() {
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
-  const backLink = location.state?.from ?? "/";
+  const linkRef = useRef(location.state?.from ?? "/");
 
   useEffect(() => {
     if (!movieId) {
@@ -50,7 +50,7 @@ export default function MovieDetailsPage() {
       {error && <ErrorMessage />}
       {isLoading && <Loader />}
       <hr />
-      <Link to={backLink}>
+      <Link to={linkRef.current}>
         <button className={css.btn}>Go back</button>
       </Link>
       <div className={css.container}>
